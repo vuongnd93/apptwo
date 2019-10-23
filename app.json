@@ -24,11 +24,18 @@
       "**/*"
     ],
     "ios": {
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ]
+      },
       "supportsTablet": true,
       "bundleIdentifier": "hc.com.vn",
       "config": {
         "googleMapsApiKey": "AIzaSyAoRq60HSExgJMuCmxUcInNEGwDfa5hIJA "
       }  
+      
     }
 
   }

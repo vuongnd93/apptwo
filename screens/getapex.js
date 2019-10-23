@@ -166,61 +166,49 @@ export default class Upimage  extends React.Component {
   async uploadImageAsync(URI){
 
     const DEL_ID = this.state.paramsup;
-    const path = URI.replace("file://", "");
-// const formData = [];
-// formData.push({
-//   name: "photo",
-//   filename: `photo.jpg`,
-//   data: RNFetchBlob.wrap(path)
-// });
-    // const RNFS = require("react-native-fs");
-// response.uri from react-native-camera
-  //   RNFS.readFile(URI, "base64").then(data => {
-
-  // let URI = data;
-  // console.log(data);
-  //   });
-    // let tmp = await FileSystem.getContentUriAsync(URI);
-    
-    // let path = tmp;
-    // console.log(test);
-    // console.log(tmp);
     let apiUrl = 'http://118.70.197.124/ords/retail/delivery/putimage';
     // let apiUrl = 'http://221.133.17.20:3030/api/upimage';
-    // let uripath = FileSystem.getInfoAsync(uri);
-    // console.log(uripath);
+    // let options = { encoding: FileSystem.EncodingType.Base64 };
+    let options = { encoding: FileSystem.EncodingType.Base64 };
+    let dataBase64 = '';
+    await FileSystem.readAsStringAsync(URI, options).then(data => {
+            dataBase64 = 'data:image/jpg;base64' + data;
+            var BASE64_MARKER = ';base64,';
+
+            let arr =  function convertDataURIToBinary(dataBase64) {
+                var base64Index = dataBase64.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+                var base64 = dataBase64.substring(base64Index);
+                var raw = window.atob(base64);
+                var rawLength = raw.length;
+                var array = new Uint8Array(new ArrayBuffer(rawLength));
+
+                for(i = 0; i < rawLength; i++) {
+                  array[i] = raw.charCodeAt(i);
+                }
+                return array;
+              }
+            
+        }).catch(err => {
+            console.log("​getFile -> err", err);
+            reject(err) ;
+        });
+        console.log('data=:',dataBase64);
+        console.log(arr);
     let uriParts = URI.split('.');
-    let nameimage = URI.split('/');
-    let filename = nameimage[nameimage.length-1];
-    // let uriParts = uri.split('/');    
     let fileType = uriParts[uriParts.length - 1];  
     let formData = new FormData();
     
-    // URI = URI.replace("file://", "");
-
-    formData.append('photo', {
-      URI: RNFetchBlob.wrap(path),
-      name: `photo.${fileType}`,
-      // filename :filename,
-      type: `image/${fileType}`,
-    });
-    // formData.append('Content-Type', 'image/png');
-    console.log(formData);
-     
-    // let options = {
-    //   method: 'PUT',
-    //   // params : {P_DEL_ID: DEL_ID},
-    //   body: formData,
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'multipart/form-data',
-    //   },
-    // };
+    // formData.append('photo', { 
+    //   URI,    
+    //   name: `photo.${fileType}`,
+    //   type: `image/${fileType}`,
+    // });
   
+    // console.log(formData);
     axios(apiUrl, { 
       method: 'PUT',
       params : {P_DEL_ID: DEL_ID},         
-      data: formData,
+      data: dataBase64,
       headers: {
         Accept: 'application/json',
         'Content-Type': 'multipart/form-data',

@@ -6,8 +6,11 @@ import { Alert, Button, Text, TouchableOpacity, TextInput, View,
 import { AuthSession } from 'expo';
 // import {getdata} from '../networking/server';
 import axios from 'axios';
+import * as TaskManager from 'expo-task-manager';
+import * as Location from 'expo-location';
 import datajson from '../datajson';
 
+const LOCATION_TASK_NAME = 'background-location-task';
 const getApex = 'http://118.70.197.124/ords/retail/delivery/login?';
 export default class LoginScreen extends React.Component {
     state = {
@@ -18,6 +21,12 @@ export default class LoginScreen extends React.Component {
     static navigationOptions ={
       title: 'Đăng Nhập',
     };
+    componentDidMount = async () => {
+      //   await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+      //   accuracy: Location.Accuracy.Balanced,
+      // });
+    };
+    
 
   onLogin() {
     const { email, password } = this.state;
@@ -42,10 +51,11 @@ export default class LoginScreen extends React.Component {
             // this.props.navigation.navigate('JobList',{data:{dataserver}}) 
             this.props.navigation.navigate('JobList',{data:datajson,del_id:responce.data.del_id})      
         }
-       else {Alert,alert('Login fail')}
+       else {Alert.alert('Login fail')};
        return responcedata;  
     } catch(error){
-        console.log(`error is : ${error}`);      
+        console.log(`error is : ${error}`); 
+        {Alert.alert('Login fail')};
     }
   }
    Divider = ()=>{
@@ -92,7 +102,7 @@ export default class LoginScreen extends React.Component {
             
         <TouchableOpacity
           style={styles.button}
-          onPress={this._getdata}
+          onPress={()=> this.props.navigation.navigate('JobList',{data:datajson}) }
        >
          <Text style={styles.buttonText}> Sign Up / Login </Text>
        </TouchableOpacity>
@@ -103,6 +113,19 @@ export default class LoginScreen extends React.Component {
     );
   }
 }
+
+// TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
+//   if (error) {
+    
+//     return;
+//   }
+//   if (data) {
+//     const { locations } = data;
+//     setInterval(() => {
+//       console.log('Interval triggered');
+//     }, 3000);
+//   }
+// });
 
 const styles = StyleSheet.create({
   container: {

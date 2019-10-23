@@ -7,8 +7,9 @@ import Flatlists  from './listcontent';
 export default class ListJob extends React.Component {
     constructor(props){
      super(props);
+     const status = this.props.navigation.state.params.data.status;
      this.state= {
-     paramsup : this.props.navigation.state.params.del_id,
+       status : status,
        datas : [],
      } 
   }
@@ -41,9 +42,11 @@ export default class ListJob extends React.Component {
 
   
   render() {
-    const {params}= this.props.navigation.state
+    const {params}= this.props.navigation.state;
+    const key = this.props.navigation.state.key;
     const dataget = params.data;
     const thamso = params.del_id;
+    console.log('key get from home: ',key);
     return (
       <View style={styles.container}>
          <ScrollView> 
@@ -56,7 +59,7 @@ export default class ListJob extends React.Component {
              status={item.status}
              total={item.oder_detail.SĐT} 
              onPress={() => this.props.navigation.navigate('oderdetail', 
-             {thamso: params.del_id,detail:item.oder_detail})}
+             {thamso: params.del_id,detail:item.oder_detail,status:item.status,key:key})}
               />}
             keyExtractor={item => item.Oder_id}
       />

@@ -1,6 +1,6 @@
 
 
- const countReducer = (state=false, action) => {
+ const countReducer = (state=true, action) => {
     // if (typeof state === 'undefined') {
     //   return 0;
     // }

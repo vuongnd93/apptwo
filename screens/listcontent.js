@@ -63,13 +63,14 @@ const styles = StyleSheet.create({
       marginHorizontal :10,
       marginTop : 15,
       paddingHorizontal :10,
-      borderRadius :2
+      borderRadius :2,
+      padding: 10,
     },
    
     view_oder : { 
       flexDirection: 'row',
       justifyContent: 'space-between',
-      padding: 5,
+      padding: 3,
      },
     oder_id : { color: '#fff', fontWeight: 'bold' },
     oder_content: { color: '#fff' },

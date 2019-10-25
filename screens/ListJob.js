@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Text, View, StyleSheet,ScrollView,FlatList } from 'react-native';
+import { Text, View, StyleSheet,ScrollView,FlatList,AsyncStorage } from 'react-native';
 import Constants from 'expo-constants';
+import { connect } from 'react-redux';
 import Flatlists  from './listcontent';
-// import { Card } from 'react-native-paper';
+import Filter from './Filter';
 
-export default class ListJob extends React.Component {
+ class ListJob extends React.Component {
     constructor(props){
      super(props);
      const status = this.props.navigation.state.params.data.status;
@@ -20,9 +21,23 @@ export default class ListJob extends React.Component {
     }    
    };
    
-   componentWillMount() {
-    //function get data from server apex;
-   }
+   async componentWillMount() {
+     
+    let status = await AsyncStorage.getItem('status');
+    console.log('Constructor, status = ',status);
+
+    if (status === 'PROCESSING') {
+      // PROCESSING -> btnStartEnd lable shows END
+      this.setState({
+        btnStartEndName: 'END',
+      });
+    } else {
+      // Stop -> btnStartEnd lable shows START
+      this.setState({
+        btnStartEndName: 'START',
+      });
+    }
+ }
    
   //  componentDidMount() {
   //   this.refreshData();
@@ -34,43 +49,50 @@ export default class ListJob extends React.Component {
   //     this.setState({data : []});
   //   })
   // }
+  getWordList() {
+    const {btnStatus, myData } = this.props;
+    if (btnStatus === 'PROCESSING') return myData.filter(e => e.status === 'PROCESSING');
+    if (btnStatus === 'COMPLETED') return myData.filter(e => e.status === 'COMPLETED');
+    return myData;
+}
 
-  
-
-
-
-
-  
   render() {
-    const {params}= this.props.navigation.state;
-    const key = this.props.navigation.state.key;
-    const dataget = params.data;
-    const thamso = params.del_id;
-    console.log('key get from home: ',key);
+    // const {params}= this.props.navigation.state;
+    // const key = this.props.navigation.state.key;
+    // const dataget = params.data;
+    // const thamso = params.del_id;
+    // console.log('key get from home: ',key);
     return (
       <View style={styles.container}>
-         <ScrollView> 
+         <ScrollView > 
            <FlatList
             
-            data={dataget}
+            data={this.getWordList()}
             renderItem={({ item }) => <Flatlists
              id={item.Oder_id}
              time={item.Odertime}
              status={item.status}
              total={item.oder_detail.SĐT} 
              onPress={() => this.props.navigation.navigate('oderdetail', 
-             {thamso: params.del_id,detail:item.oder_detail,status:item.status,key:key})}
+             {detail:item.oder_detail})}
               />}
             keyExtractor={item => item.Oder_id}
       />
          </ScrollView>
-         
+         <Filter/>
       
       </View>
     );
   }
 }
 
+function mapStateToProps(state) {
+  return { 
+      myData: state.dataFake,
+      btnStatus: state.filterStatus
+  };
+}
+export default connect(mapStateToProps)(ListJob);
 const styles = StyleSheet.create({
   container: {
     flex: 1,

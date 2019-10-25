@@ -12,28 +12,20 @@ import { DECREMENT } from '../redux/actionCreators';
     static navigationOptions = {
       title: 'Counter!',
     };
-    state = {
-      start: 'START',
+    // state = {
+    //   start: 'START',
      
 
-    };
-  componentDidMount(){
-     if(this.props.count === false){
-      this.setState({
-        start: 'START',
-      });
-     }else{
-      this.setState({
-        start: 'END',
-      });
-     }
-  }
+    // };
+  
     render() {
       return (
         <View style={styles.container}>
-          <Text style={styles.paragraph}>{this.state.start}</Text>
+          <Text style={styles.paragraph}>
+         
+          </Text>
           <Button
-            title="Increment"
+            title= {this.props.count ? 'START' : 'END'}
             onPress={() => this.props.INCREMENT()}
           />
           <Button

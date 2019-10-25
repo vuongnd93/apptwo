@@ -14,7 +14,7 @@ import { Provider, connect } from 'react-redux';
     render() {
       return (
         <View style={styles.container}>
-          <Text style={styles.paragraph}>{this.props.count}</Text>
+          <Text style={styles.paragraph}>{this.props.count ? 'START':'END'}</Text>
         </View>
       );
     }

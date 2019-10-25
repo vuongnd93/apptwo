@@ -15,39 +15,19 @@ import Oderdetail  from  './screens/oderdetail';
 
 import Counter from './components/Counter'
 import StaticCounter from './components/StaticCounter'
-// import TestRedux from './screens/testRedux'
-
-
-// let store = createStore(combineReducers({ count: reducer }));
-// function mapStateToProps(state){
-//   return {count: state.count};
-//  }
-//  const mapStateToProps = (state) => ({
-//   count: state.count
-// });
-// let CounterContainer = connect(mapStateToProps)(Counter);
-// let StaticCounterContainer = connect(mapStateToProps)(StaticCounter);
-
-// let CounterContainer = connect((state) =>{ count: state.count })(Counter);
-// let StaticCounterContainer = connect((state) => { count: state.count })(
-//   StaticCounter
-// );
-
-
-// let CounterContainer = connect(state => ({ count: state.count }))(Counter);
-// let StaticCounterContainer = connect(state => ({ count: state.count }))(
-//   StaticCounter
-// );
 
 
 const MainNavigator = createStackNavigator({  
     // mapview: {screen: Example},
+    Home: {screen: LoginScreen},
+    JobList: {screen :ListJob },
+    oderdetail: {screen: Oderdetail },
     Count: {screen: Counter},
     StaticCounter: {screen: StaticCounter},
     
    
     // test: {screen: TestRedux},
-    // Home: {screen:  Counter},
+    
     // LoginSuccess: {screen: Getapex},
     // JobList: {screen :ListJob },
     // oderdetail: {screen: Oderdetail },

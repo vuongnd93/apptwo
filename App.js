@@ -18,6 +18,11 @@ import {createStackNavigator} from 'react-navigation-stack';
 import  MainNavigator from './AppNavigation';
 // import { MapView } from "expo";
 import {MapView} from 'react-native-maps';
+import { Provider, connect } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
+import store from './redux/store';
+
+// import { reducer } from './action/actionTypes';
 // import { Constants,  } from 'expo';
 // import * as Permissions from 'expo-permissions';
 // import * as ImagePicker from 'expo-image-picker';
@@ -28,11 +33,14 @@ import {MapView} from 'react-native-maps';
 const AppContainer = createAppContainer(MainNavigator);
 
 // import LoginScreen from './components/Login';
+// let store = createStore(combineReducers({ count: reducer }));
 
 export default class App extends React.Component{
 render(){
   return (
-    <AppContainer/>
+  <Provider store={store}>
+     <AppContainer/>
+  </Provider>
    
   );
 }

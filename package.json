@@ -16,6 +16,7 @@
     "expo-image-picker": "^7.0.0",
     "expo-location": "~7.0.0",
     "expo-permissions": "^7.0.0",
+    "expo-task-manager": "~7.0.0",
     "link": "^0.1.5",
     "react": "16.8.3",
     "react-devtools": "^3.6.3",
@@ -32,8 +33,9 @@
     "react-native-web": "^0.11.7",
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.9.3",
-    "rn-fetch-blob": "^0.11.2",
-    "expo-task-manager": "~7.0.0"
+    "react-redux": "^7.1.1",
+    "redux": "^4.0.4",
+    "rn-fetch-blob": "^0.11.2"
   },
   "devDependencies": {
     "babel-preset-expo": "^7.0.0"

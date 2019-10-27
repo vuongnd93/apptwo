@@ -70,6 +70,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around', 
         padding :10,
+        marginTop: 6,
+        borderRadius: 5,
     },
     buttonText: { color: 'white' }
 });

@@ -4,15 +4,21 @@ import { Text, View, StyleSheet, Image,
   Dimensions,StatusBar,TextInput,AsyncStorage,
   ActivityIndicator,
  } from 'react-native';
-
+// import StorageHandler from '../Util/StorageHandler'
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
+// import axios from 'axios';
+import * as FileSystem from 'expo-file-system';
+import { connect } from 'react-redux';
 import AddModal from '../components/addmodal';
 import axios from 'axios';
 import Button from 'react-native-button';
-import * as ImagePicker from 'expo-image-picker';
+import { START,END,ToggleBtn } from '../redux/actionCreators';
+// import * as ImagePicker from 'expo-image-picker';
 
 
 
-export default class Oderdetail extends React.Component {
+ class Oderdetail extends React.Component {
     constructor(props){
      super(props)
      this.state ={
@@ -71,8 +77,10 @@ export default class Oderdetail extends React.Component {
                 //do some task about 3s
             this.props.navigation.setParams({isSaving:true});
             setInterval(()=>{
-              console.log('finish task in 3s');
-              // this.props.navigation.goBack();
+              // console.log('finish task in 3s');
+              // this.setState({
+              //   btnStartEndName: 'COMPLETED',
+              // });
               this.props.navigation.setParams({isSaving:false});
             },3000);
               
@@ -122,8 +130,138 @@ export default class Oderdetail extends React.Component {
           console.log(error);
         }
       }  
-
-     
+    
+      _takePhoto = async () => {
+        const {
+          status: cameraPerm
+        } = await Permissions.askAsync(Permissions.CAMERA);
+    
+        const {
+          status: cameraRollPerm
+        } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    
+        // only if user allows permission to camera AND camera roll
+        if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
+          let pickerResult = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            aspect: [4, 3],
+          });
+    
+          this._handleImagePicked(pickerResult);
+        }
+      };
+    
+      _handleImagePicked = async pickerResult => {
+        // const DEL_ID = this.props.navigation.state.params.del_id;
+        let uploadResponse, uploadResult;
+    
+        try {
+          this.setState({
+            uploading: true
+          });
+    
+          if (!pickerResult.cancelled) {
+            uploadResponse = this.uploadImageAsync(pickerResult.uri);
+          }
+          console.log({ uploadResponse });
+          alert('Upload success, okok :(');
+        } catch (e) {
+          console.log({ uploadResponse });
+        } finally {
+          this.setState({
+            uploading: false
+          });
+        }
+      };
+    
+      async uploadImageAsync(URI) {
+    
+        let apiUrl = 'http://118.70.197.124/ords/retail/delivery/putimage';
+    
+        let uriParts = URI.split('.');
+        let nameimage = URI.split('/');
+        let filename = nameimage[nameimage.length - 1];
+        // let uriParts = uri.split('/');    
+        let fileType = uriParts[uriParts.length - 1];
+        let formData = new FormData();
+    
+        // URI = URI.replace("file://", "");
+        console.log('Hoang');
+    
+        let options = { encoding: FileSystem.EncodingType.Base64 };
+        let dataBase64 = ''
+        await FileSystem.readAsStringAsync(URI, options).then(data => {
+          dataBase64 = data;
+        }).catch(err => {
+          console.log("​getFile -> err", err);
+          reject(err);
+        });
+        let dataByte = this.convertToByteArray(dataBase64);
+        console.log(dataByte);
+    
+        // formData.append('photo', {
+        //   URI,
+        //   name: `photo.${fileType}`,
+        //   // filename :filename,
+        //   type: `image/${fileType}`,
+        // });
+        // formData.append('Content-Type', 'image/png');
+        // console.log(formData);
+    
+        axios(apiUrl, {
+          method: 'PUT',
+          params: { P_DEL_ID: '100' },
+          data: dataByte,
+          headers: {
+            Accept: 'application/json',
+            // 'Content-Type': 'multipart/form-data',
+          },
+        }).then(
+          response => {
+            console.log('success up image to server apex ')
+            //  console.log(response)
+            console.log(JSON.stringify(response))
+            // console.log("response" +JSON.stringify(response));
+    
+          }
+        ).catch(err => {
+          console.log('err ')
+          console.log(err)
+        })
+      }
+    
+      convertToByteArray(input) {
+        var binary_string = this.atob(input);
+        var len = binary_string.length;
+        var bytes = new Uint8Array(len);
+        for (var i = 0; i < len; i++) {
+          bytes[i] = binary_string.charCodeAt(i);
+        }
+        return bytes
+      }
+      
+      atob(input) {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+      
+        let str = input.replace(/=+$/, '');
+        let output = '';
+      
+        if (str.length % 4 === 1) {
+          throw new Error("'atob' failed: The string to be decoded is not correctly encoded.");
+        }
+        let bc = 0, bs = 0, buffer, i = 0
+      
+        for (let bc = 0, bs = 0, buffer, i = 0;
+          buffer = str.charAt(i++);
+      
+          ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
+            bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0
+        ) {
+          buffer = chars.indexOf(buffer);
+        }
+      
+        return output;
+      }
     
 
    
@@ -133,13 +271,11 @@ export default class Oderdetail extends React.Component {
     }
   
   render() {
-  
+    
     const {params}= this.props.navigation.state;
-    const key = params.key;
+    const {id} = this.props.navigation.state.params;
     const dataget = params.detail;
-    // const status = params.status;
-    console.log('key get from listjob : ',key);
-    // console.log(status);
+    console.log('ID get from state la:',id);
     let mainView= (params && params.isSaving == true)? <ActivityIndicator/> :
     <View style={styles.wrapper}>
           
@@ -170,7 +306,7 @@ export default class Oderdetail extends React.Component {
                 
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.signUpStyle} onPress={this._onStartEndJob} >
+            <TouchableOpacity style={styles.signUpStyle} onPress={() => {this.props.ToggleBtn(id),this._onStartEndJob()}} >
                 <Text style={styles.activeStyle }>{this.state.btnStartEndName}</Text>
             </TouchableOpacity>
   </View>  
@@ -185,7 +321,7 @@ export default class Oderdetail extends React.Component {
             value={styles.email}
             onChangeText={text => this.setState({ email: text })}
         />
-         <TouchableOpacity style={styles.bigButton} >
+         <TouchableOpacity style={styles.bigButton} onPress={this._takePhoto} >
                 <Text style={styles.buttonText}>Take_photo</Text>
             </TouchableOpacity>
 
@@ -199,7 +335,14 @@ export default class Oderdetail extends React.Component {
 }
 
 
+function mapStateToProps(state) {
+  return {
+    myData: state.dataFake,
+    btnStatus: state.filterStatus
+   };
+}
 
+export default connect(mapStateToProps,{START,END,ToggleBtn})(Oderdetail);
 
 // const { width } = Dimensions.get('window');
 

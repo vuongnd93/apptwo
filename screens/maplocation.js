@@ -9,7 +9,7 @@ import axios from 'axios';
 const postlocation = 'http://118.70.197.124/ords/retail/delivery/putlocation';
 const postnodejs = 'http://221.133.17.20:3030/api/dangnhap';
 
-export default class Maplocation extends Component {
+export default class MapPUT extends Component {
   static navigationOptions = ({navigation})=>{
     return {
       title : navigation.getParam('del_id')

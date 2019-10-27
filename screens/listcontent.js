@@ -42,7 +42,7 @@ export default class Flatlists extends React.Component {
             </View>  
             <View style={styles.view_oder}>
               <Text style={styles.oder_id }>Status</Text>
-              <Text style={styles.oder_content}>{this.props.status}</Text>
+              <Text style={{color:'yellow'}}>{this.props.status}</Text>
             </View> 
             <View style={styles.view_oder}>
               <Text style={styles.oder_id }>Total</Text>

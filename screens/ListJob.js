@@ -51,6 +51,7 @@ import Filter from './Filter';
   // }
   getWordList() {
     const {btnStatus, myData } = this.props;
+    console.log(btnStatus);
     if (btnStatus === 'PROCESSING') return myData.filter(e => e.status === 'PROCESSING');
     if (btnStatus === 'COMPLETED') return myData.filter(e => e.status === 'COMPLETED');
     return myData;
@@ -64,7 +65,7 @@ import Filter from './Filter';
     // console.log('key get from home: ',key);
     return (
       <View style={styles.container}>
-         <ScrollView > 
+         <View style={styles.listjob}> 
            <FlatList
             
             data={this.getWordList()}
@@ -74,11 +75,11 @@ import Filter from './Filter';
              status={item.status}
              total={item.oder_detail.SĐT} 
              onPress={() => this.props.navigation.navigate('oderdetail', 
-             {detail:item.oder_detail})}
+             {id:item.Oder_id,detail:item.oder_detail})}
               />}
             keyExtractor={item => item.Oder_id}
       />
-         </ScrollView>
+         </View>
          <Filter/>
       
       </View>
@@ -93,6 +94,7 @@ function mapStateToProps(state) {
   };
 }
 export default connect(mapStateToProps)(ListJob);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -100,6 +102,9 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: '#ecf0f1',
     padding: 8,
+  },
+  listjob:{
+    flex:10,
   },
   
 });

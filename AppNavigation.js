@@ -7,8 +7,8 @@ import {createStackNavigator} from 'react-navigation-stack';
 import Getapex from './screens/getapex';
 // import {createStackNavigator} from 'react-navigation-stack';
 import LoginScreen from './screens/Login';
-import MapLocation from './screens/maplocation';
-import Example  from  './screens/homemapview';
+import  MapPUT from './screens/maplocation';
+import Maplocation  from  './screens/Map';
 import ListJob  from  './screens/ListJob';
 import Oderdetail  from  './screens/oderdetail';
 
@@ -18,12 +18,14 @@ import StaticCounter from './components/StaticCounter'
 
 
 const MainNavigator = createStackNavigator({  
-    // mapview: {screen: Example},
+    // Count: {screen: Counter},
+    // StaticCounter: {screen: StaticCounter},
     Home: {screen: LoginScreen},
     JobList: {screen :ListJob },
     oderdetail: {screen: Oderdetail },
-    Count: {screen: Counter},
-    StaticCounter: {screen: StaticCounter},
+    maplocation: {screen: Maplocation},
+    // Count: {screen: Counter},
+    // StaticCounter: {screen: StaticCounter},
     
    
     // test: {screen: TestRedux},

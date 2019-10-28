@@ -8,9 +8,7 @@ import Filter from './Filter';
  class ListJob extends React.Component {
     constructor(props){
      super(props);
-     const status = this.props.navigation.state.params.data.status;
      this.state= {
-       status : status,
        datas : [],
      } 
   }
@@ -73,9 +71,7 @@ import Filter from './Filter';
              id={item.Oder_id}
              time={item.Odertime}
              status={item.status}
-             total={item.oder_detail.SĐT} 
-             onPress={() => this.props.navigation.navigate('oderdetail', 
-             {id:item.Oder_id,detail:item.oder_detail})}
+             onPress={() => this.props.navigation.navigate('oderdetail',{detail:item.oder_detail,})}       
               />}
             keyExtractor={item => item.Oder_id}
       />

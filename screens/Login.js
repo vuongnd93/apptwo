@@ -49,7 +49,7 @@ export default class LoginScreen extends React.Component {
 
        if (responcedata === 'OK') {Alert.alert('login success: OK'),
             // this.props.navigation.navigate('JobList',{data:{dataserver}}) 
-            this.props.navigation.navigate('JobList',{data:datajson,del_id:responce.data.del_id})      
+            this.props.navigation.navigate('ShowJob',{data:datajson,del_id:responce.data.del_id})      
         }
        else {Alert.alert('Login fail')};
        return responcedata;  
@@ -102,7 +102,7 @@ export default class LoginScreen extends React.Component {
             
         <TouchableOpacity
           style={styles.button}
-          onPress={()=> this.props.navigation.navigate('JobList',{data:datajson}) }
+          onPress={()=> this.props.navigation.navigate('ShowJob',{data:datajson}) }
        >
          <Text style={styles.buttonText}> Sign Up / Login </Text>
        </TouchableOpacity>

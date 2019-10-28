@@ -11,19 +11,23 @@ import  MapPUT from './screens/maplocation';
 import Maplocation  from  './screens/Map';
 import ListJob  from  './screens/ListJob';
 import Oderdetail  from  './screens/oderdetail';
-
+import ShowJob  from  './screens/ShowJob';
 
 import Counter from './components/Counter'
 import StaticCounter from './components/StaticCounter'
 
 
 const MainNavigator = createStackNavigator({  
-    // Count: {screen: Counter},
+    // maplocation: {screen: Maplocation},
+  // Count: {screen: Counter},
     // StaticCounter: {screen: StaticCounter},
     Home: {screen: LoginScreen},
+    ShowJob: {screen: ShowJob},
     JobList: {screen :ListJob },
     oderdetail: {screen: Oderdetail },
-    maplocation: {screen: Maplocation},
+    // JobList: {screen :ListJob },
+    
+    // maplocation: {screen: Maplocation},
     // Count: {screen: Counter},
     // StaticCounter: {screen: StaticCounter},
     

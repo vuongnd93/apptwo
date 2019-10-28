@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Image,
   Button,Alert,TouchableOpacity,ScrollView,
   Dimensions,StatusBar,TextInput
  } from 'react-native';
+ import backSpecial from '../assets/backs.png';
 // import {createAppContainer} from 'react-navigation';
 // import {createStackNavigator} from 'react-navigation-stack';
 import axios from 'axios';
@@ -30,25 +31,27 @@ export default class Flatlists extends React.Component {
           
          <TouchableOpacity onPress={this.props.onPress}>     
            
-        
-          <View style={styles.wrapper_oder}>
-            <View style={styles.view_oder}>
-              <Text style={styles.oder_id }>Oder_ID</Text>
-              <Text style={styles.oder_content}>{this.props.id}</Text>
-            </View>  
-            <View style={styles.view_oder}>
-              <Text style={styles.oder_id }>Oder_time</Text>
-              <Text style={styles.oder_content}>{this.props.time}</Text>
-            </View>  
-            <View style={styles.view_oder}>
-              <Text style={styles.oder_id }>Status</Text>
-              <Text style={{color:'yellow'}}>{this.props.status}</Text>
-            </View> 
-            <View style={styles.view_oder}>
-              <Text style={styles.oder_id }>Total</Text>
-              <Text style={styles.oder_content}>{this.props.total}</Text>
-            </View> 
-          </View>   
+          <View style={styles.wrapper_oder} >
+              <View style={styles.wrapper_row}>
+                    <View style={styles.view_oder}>
+                      <Text style={styles.oder_id }>Đơn Hàng</Text>
+                      <Text style={styles.oder_content}>{this.props.id}</Text>
+                    </View>  
+                    <View style={styles.view_oder}>
+                      <Text style={styles.oder_id }>Thời gian</Text>
+                      <Text style={styles.oder_content}>{this.props.time}</Text>
+                    </View>  
+                    <View style={styles.view_oder}>
+                      <Text style={styles.oder_id }>Trạng Thái</Text>
+                      <Text style={{color:'yellow'}}>{this.props.status}</Text>
+                    </View> 
+              </View> 
+              <TouchableOpacity onPress={this.props.onPress} >
+                            <Image source={backSpecial} style={{ width: 20, height: 20, marginVertical:20 }}/>
+              </TouchableOpacity>
+           
+          </View>
+
          </TouchableOpacity>                                                                                
     )}
 }
@@ -59,14 +62,17 @@ export default class Flatlists extends React.Component {
 const styles = StyleSheet.create({
     // wrapper: { flex: 1, backgroundColor: '#fff' },
     wrapper_oder :{
+      flexDirection: 'row',
       backgroundColor: '#DD3C6E',
       marginHorizontal :10,
-      marginTop : 15,
+      marginTop : 10,
       paddingHorizontal :10,
       borderRadius :2,
       padding: 10,
     },
-   
+    wrapper_row:{
+      flex:80,
+    },
     view_oder : { 
       flexDirection: 'row',
       justifyContent: 'space-between',

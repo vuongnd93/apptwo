@@ -301,8 +301,8 @@ import { START,END,ToggleBtn } from '../redux/actionCreators';
         <Text style={styles.oder_infor}>{dataget.thanhtoan}</Text>
       </View> 
       <View style={styles.controlStyle}>
-            <TouchableOpacity style={styles.signInStyle}  onPress={()=>this.props.navigation.goBack(key)}>
-                <Text style={ styles.activeStyle }>{this.state.jobstart}</Text>
+            <TouchableOpacity style={styles.signInStyle} >
+                <Text style={ styles.activeStyle }>Sự Kiện</Text>
                 
             </TouchableOpacity>
             

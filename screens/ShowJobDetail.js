@@ -4,6 +4,8 @@ import { Text, View, StyleSheet, Image,
   Dimensions,StatusBar,TextInput,Modal,TouchableHighlight
  } from 'react-native';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import Swipeout from 'react-native-swipeout';
 import * as ImagePicker from 'expo-image-picker';
 import backSpecial from '../assets/backs.png';
 import shipping from '../assets/shipping.jpg';
@@ -12,15 +14,13 @@ import shipping from '../assets/shipping.jpg';
 
 
 
-export default class ShowJobDetail extends React.Component {
+ class ShowJobDetail extends React.Component {
     constructor(props){
      super(props)
-      this.state = {
-     modalVisible: false,
-  };
-
-     
-    }
+     this.state = {
+      activeRowKey: null
+    }; 
+ }
     static navigationOptions = ({navigation})=>{
       return { 
         title : 'List công việc'    
@@ -63,9 +63,44 @@ export default class ShowJobDetail extends React.Component {
 
   render() {
 //   const {job} = this.props.job;
+const {btnStatus, myData } = this.props;
+const swipeSettings = {
+  autoClose: true,
+  onClose: (secId, rowId, direction) => {
+      if(this.state.activeRowKey != null) {
+          this.setState({ activeRowKey: null });
+      }              
+  },          
+  onOpen: (secId, rowId, direction) => {
+      this.setState({ activeRowKey: this.props.id });
+  },      
+  right: [
+      { 
+          onPress: () => {    
+              const deletingRow = this.state.activeRowKey;          
+              Alert.alert(
+                  'Alert',
+                  'Are you sure you want to delete ?',
+                  [                              
+                    {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                    {text: 'Yes', onPress: () => {        
+                      myData.splice(this.props.index, 1); 
+                      //Refresh FlatList ! 
+                      this.props.parentFlatList.refreshFlatList(deletingRow);
+                    }},
+                  ],
+                  { cancelable: true }
+                ); 
+          }, 
+          text: 'Reject', type: '' 
+      }
+  ],  
+  rowId: this.props.index, 
+  sectionId: 1    
+};             
    
     return (
-
+      <Swipeout {...swipeSettings}>
          <TouchableOpacity style={styles.wrapper_oder} >
                  <View style={styles.jobcutom} >
                     <Image source={shipping} style={{ width: 40, height: 40 }}/>
@@ -82,12 +117,20 @@ export default class ShowJobDetail extends React.Component {
                             <Text style={styles.activeStyle }>Reject</Text>
                         </TouchableOpacity>
                 </View> 
-         </TouchableOpacity>                              
+         </TouchableOpacity>  
+         </Swipeout>                               
     )}
 }
 
 
 // const { width } = Dimensions.get('window');
+function mapStateToProps(state) {
+  return { 
+      myData: state.dataFake,
+      btnStatus: state.filterStatus
+  };
+}
+export default connect(mapStateToProps)(ShowJobDetail);
 
 const styles = StyleSheet.create({
     wrapper: { flex: 1, backgroundColor: '#fff' },

@@ -25,7 +25,7 @@ import { START,END,ToggleBtn } from '../redux/actionCreators';
       btnStartEndName: 'START',
       jobstart: 'BACK'
      }
-    
+     this._onPressAdd = this._onPressAdd.bind(this); 
     }
     static navigationOptions = ({navigation})=>{
       const {params={}}=navigation.state;
@@ -266,8 +266,9 @@ import { START,END,ToggleBtn } from '../redux/actionCreators';
 
    
 
-    _onPressadd =()=>{
-      this.refs.addModal.showAddModal();
+      _onPressAdd () {
+        // alert("You add Item");
+        this.refs.addModal.showAddModal();
     }
   
   render() {
@@ -301,7 +302,8 @@ import { START,END,ToggleBtn } from '../redux/actionCreators';
         <Text style={styles.oder_infor}>{dataget.thanhtoan}</Text>
       </View> 
       <View style={styles.controlStyle}>
-            <TouchableOpacity style={styles.signInStyle} >
+            <TouchableOpacity style={styles.signInStyle}
+            onPress={() => this.props.navigation.navigate('active')}>
                 <Text style={ styles.activeStyle }>Sự Kiện</Text>
                 
             </TouchableOpacity>
@@ -330,7 +332,10 @@ import { START,END,ToggleBtn } from '../redux/actionCreators';
    </View>
             
     return (
-             mainView                                                      
+             mainView
+            //  <AddModal ref={'addModal'}>
+
+            //  </AddModal>                                                      
     )}
 }
 

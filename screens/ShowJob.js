@@ -15,17 +15,23 @@ import ShowJobDetail from './ShowJobDetail';
  class ShowJob extends React.Component {
     constructor(props){
      super(props)
-      this.state = {
-     modalVisible: false,
-  };
-
-     
-    }
+     this.state = ({
+        deletedRowKey: null,            
+    });   
+ }
     static navigationOptions = ({navigation})=>{
       return { 
         title : 'List công việc'    
       }    
      };
+     refreshFlatList = (activeKey) => {
+        this.setState((prevState) => {
+            return {
+                deletedRowKey: activeKey
+            };
+        });
+        // this.refs.flatList.scrollToEnd();
+    }   
   
   render() {
   
@@ -50,7 +56,9 @@ import ShowJobDetail from './ShowJobDetail';
             <FlatList           
             data={myData}
             renderItem={({ item }) => <ShowJobDetail
-             job={item.job}             
+             parentFlatList={this}
+             job={item.job}  
+             id={item.Oder_id}           
              onPress={() => this.props.navigation.navigate('JobList')}         
               />}
             keyExtractor={item => item.Oder_id}

@@ -6,6 +6,7 @@ import { Text, View, StyleSheet, Image,
  import backSpecial from '../assets/backs.png';
 // import {createAppContainer} from 'react-navigation';
 // import {createStackNavigator} from 'react-navigation-stack';
+import Swipeout from 'react-native-swipeout';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -15,7 +16,7 @@ import * as ImagePicker from 'expo-image-picker';
 export default class Flatlists extends React.Component {
     constructor(props){
      super(props);
-     
+       
     }
     static navigationOptions = ({navigation})=>{
       return { 
@@ -25,10 +26,8 @@ export default class Flatlists extends React.Component {
  
   
   render() {
-  
-   
     return (
-          
+     
          <TouchableOpacity onPress={this.props.onPress}>     
            
           <View style={styles.wrapper_oder} >
@@ -52,7 +51,8 @@ export default class Flatlists extends React.Component {
            
           </View>
 
-         </TouchableOpacity>                                                                                
+         </TouchableOpacity>    
+                                                                                   
     )}
 }
 
